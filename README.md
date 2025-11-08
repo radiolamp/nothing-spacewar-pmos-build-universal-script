@@ -19,8 +19,8 @@ How to use (Debian Trixie):<br>
 5 - if all goes well, you should have the boot and root-fs images.<br>
 6 - follow below from 5 onwards.<br>
 
-
-For git-action generated images:
+<br><br>
+For git-action generated images (mostly original from Nonta72, with my reccomends added):<br>
 How to install ?
 
 1. Login to your github account
