@@ -4,6 +4,7 @@ set -e
 sudo -v
 # reference run from dir to overcome ~/ not working in $PATH
 export SCRIPT_RAN_FROM_DIR=$PWD
+export PATH="$PATH:$HOME/.local/bin"
 
 ## Clean up first, but only if they exist, presumably due to build errors, to protect from rm -rf mistakes.
 echo cleaning old or failed builds if exists...
@@ -29,7 +30,7 @@ export KERNEL_BRANCH=danila/spacewar-testing
 # Install pmbootstrap from Git
 git clone https://gitlab.postmarketos.org/postmarketOS/pmbootstrap.git --depth 1
 mkdir -p $HOME/.local/bin
-export PATH="$PATH:$HOME/.local/bin"
+
 if [ -f $HOME/.local/bin/pmbootstrap ]; then rm $HOME/.local/bin/pmbootstrap; fi
 ln -s "$PWD/pmbootstrap/pmbootstrap.py" $HOME/.local/bin/pmbootstrap
 pmbootstrap --version
@@ -67,7 +68,7 @@ sudo -v
 echo building images
 cp $SCRIPT_RAN_FROM_DIR/nothing-spacewar-phosh.cfg $HOME/.config/pmbootstrap.cfg
 sync
-pmbootstrap install --password 1114
+pmbootstrap -t 6000 install --password 1114
 sync
 sudo -v
 
