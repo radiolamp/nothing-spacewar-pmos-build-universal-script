@@ -1,0 +1,72 @@
+#!/bin/bash
+#note, Got this working by running without pmbootstrap zap and tweaking
+# So, in theory, should work if ran twice, one to fail, the next to complete
+
+set -e
+# reference run from dir to overcome ~/ not working in $PATH
+export SCRIPT_RAN_FROM_DIR=$PWD
+
+## Clean up first, but only if they exist, to protect from rm -rf mistakes.
+echo cleaning old builds if exists...
+if [ -d $HOME/.local/var/pmbootstrap ]; then sudo rm -rf $HOME/.local/var/pmbootstrap; fi
+if [ -d $SCRIPT_RAN_FROM_DIR/out ]; then rm -rf out; fi
+if [ -d $SCRIPT_RAN_FROM_DIR/pmbootstrap ]; then rm -rf pmbootstrap; fi
+echo done.
+
+
+# Git identity, not needed I don't think... didn't make git break for me. # git config --global user.email "example@example.com" # git config --global user.name "Nonta72"
+
+# Replace placeholders in .cfg files, checked and this really is needed during my line by line debug
+find . -type f -name "*.cfg" -exec sed -i "s|HOME|$(echo $HOME)|;s|NPROC|$(nproc)|" {} +
+
+# Setup environment
+export KERNEL_BRANCH=danila/spacewar-testing
+
+# Install pmbootstrap from Git
+git clone https://gitlab.postmarketos.org/postmarketOS/pmbootstrap.git --depth 1
+mkdir -p $HOME/.local/bin
+export PATH="$PATH:$HOME/.local/bin"
+if [ -f $HOME/.local/bin/pmbootstrap ]; then rm $HOME/.local/bin/pmbootstrap; fi
+ln -s "$PWD/pmbootstrap/pmbootstrap.py" $HOME/.local/bin/pmbootstrap
+pmbootstrap --version
+
+# Init, bruv
+echo -e '\n\n' | pmbootstrap init || true
+cd $HOME/.local/var/pmbootstrap/cache_git/pmaports
+
+# Kernel branch setup
+export DEFAULT_BRANCH=danila/spacewar-mr
+git remote add sc7280 https://github.com/mainlining/pmaports.git
+git fetch sc7280 $DEFAULT_BRANCH
+git reset --hard sc7280/$DEFAULT_BRANCH
+export DEFAULT_BRANCH=danila/spacewar-testing
+echo "Default branch is $DEFAULT_BRANCH"
+git clone https://github.com/mainlining/linux.git --single-branch --branch $KERNEL_BRANCH --depth 1
+
+# Copy config to pmbootstrap
+cp $SCRIPT_RAN_FROM_DIR/nothing-spacewar.cfg $HOME/.config/pmbootstrap_v3.cfg
+
+# Compile kernel image
+echo build kernel
+cd linux
+shopt -s expand_aliases
+source $SCRIPT_RAN_FROM_DIR/pmbootstrap/helpers/envkernel.sh
+make defconfig sc7280.config
+make -j$(nproc)
+pmbootstrap build --envkernel linux-postmarketos-qcom-sc7280
+
+# Build pmos images, failed here, but doesn't look like script issue
+echo building images
+cp $SCRIPT_RAN_FROM_DIR/nothing-spacewar.cfg $HOME/.config/pmbootstrap.cfg
+pmbootstrap -t 6000 install --password 1114
+#no package index file error anymore
+
+# Export build images to outdir
+echo exporting images
+pmbootstrap export
+mkdir $SCRIPT_RAN_FROM_DIR/out
+
+cp /tmp/postmarketOS-export/boot.img $SCRIPT_RAN_FROM_DIR/out/boot-nothing-spacewar.img
+cp /tmp/postmarketOS-export/nothing-spacewar.img $SCRIPT_RAN_FROM_DIR/out/rootfs-nothing-spacewar.img
+tar -c -I 'xz -9 -T0' -f $SCRIPT_RAN_FROM_DIR/out/Spacewar_pmos.tar.xz $SCRIPT_RAN_FROM_DIR/out/rootfs-nothing-spacewar.img $SCRIPT_RAN_FROM_DIR/out/boot-nothing-spacewar.img
+echo -e "n\nn\ny\n" | pmbootstrap zap
