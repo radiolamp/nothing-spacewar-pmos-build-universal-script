@@ -21,6 +21,9 @@ fi
 sync
 echo cleaned.
 
+
+find . -type f -name "*.conf" -exec sh -c 'cp "$1" "${1%.conf}.cfg"' _ {} \;
+sync
 # Replace placeholders in .cfg files, checked and this really is needed during my line by line debug
 find . -type f -name "*.cfg" -exec sed -i "s|HOME|$(echo $HOME)|;s|NPROC|$(nproc)|" {} +
 
@@ -82,3 +85,5 @@ cp /tmp/postmarketOS-export/nothing-spacewar.img $SCRIPT_RAN_FROM_DIR/out/rootfs
 tar -c -I 'xz -9 -T0' -f $SCRIPT_RAN_FROM_DIR/out/Spacewar_pmos.tar.xz $SCRIPT_RAN_FROM_DIR/out/rootfs-nothing-spacewar.img $SCRIPT_RAN_FROM_DIR/out/boot-nothing-spacewar.img
 cp $SCRIPT_RAN_FROM_DIR/flashpmos.sh $SCRIPT_RAN_FROM_DIR/out/flashpmos.sh 
 echo -e "n\nn\ny\n" | pmbootstrap zap
+# Just to tidy up the folder, gets replaced anyway
+rm $SCRIPT_RAN_FROM_DIR/*.cfg
