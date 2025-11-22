@@ -1,28 +1,45 @@
-Build PostMarketOS for NothingPhomne 1 SpaceWar <br>
+<h1>Build and flash PostMarketOS for NothingPhomne 1 SpaceWar</h1> <br>
 
-Builds images on:<br>
+(Sometimes*) Builds images on:<br>
 Debian Trixie<br>
-(Rest to be tested)<br><br>
+(Rest to be tested)<br>
+<br>
 
-On debian Trixie, the following need installing at least (I might of missed something, will suss that on a VM later):<br>
-sudo apt-get install flex bison kpartx git<br>
-and at least a GCC, presumably the latest.<br>#
-<br>
-How to use (Debian Trixie):<br>
-1 - Download this GitHub repo as a zip,<br>
-2 - extract contents of zip into it's own folder<br>
-3 - open a terminal in that folder and make build.sh executable; chmod +x build.sh<br>
-4 - run the script: ./build.sh<br>
-5 - if all goes well, you should have the boot and root-fs images.<br>
-6 - cd into the 'out' folder<br>
-7 - Plug in phone entered into FastBoot mode,<br>
-8 - in the terminal run: ./flashpmos.sh<br>
-<br>
-The flashpmos.sh will do all the intermediate stages so you're not interrupted if you want to do other things whilst waiting.<br>
-<br>
-For pre-built images, visit the original project this is forked from but use my ./flashpmos.sh in<br>
-the same folder as the images to flash the phone with.<br>
 
-CoC:<br>
-No ai!<br>
-Yes I use dashes as seperators in bullet points and numbering, I'll not accuse others of Ai-ing for doing the same.
+<h2>Dependencies</h2>
+For Debian 13 (Trixie) on a fresh install, You'll need the following depends:<br>
+<code>sudo apt-get install git kpartx flex bison</code>
+<br>
+
+
+<h2>To download and build</h2>
+Open a terminal and run:<br>
+<code>mkdir pmos
+cd pmos
+git clone https://github.com/Ordinary-Ladess/nothing-spacewar-pmos-build-universal-script.git
+chmod +x *.sh
+./build.sh
+</code>
+<br>
+
+
+<h2>To install onto phone</h2>
+Keep the terminal open<br>
+Make sure the phone's bootloader is unlocked,<br>
+Enter into fastboot <code>Power + Vol -</code><br>
+In the same terminal, run:<br>
+<code>cd out
+./flashpmos.sh
+</code>
+<br>
+
+<h2>Issues that might happen:</h2>
+In pmbootstrap, downloading packages randomly fail.<br>
+This seems to happen on my older laptop and increasing<br>
+timeout on pmbootstrap makes things better.<br>
+I had to increase the timeout from 6000 to 99000.<br>
+It did work fine the first time I added a delay, but<br>
+on a fresh install, it's more flakey. However, YMMV.<br>
+*Repeatedly rerunning sometimes gets a good build.<br>
+<br>
+Bad images, this can happen in Git-Action builds anyway.<br>
