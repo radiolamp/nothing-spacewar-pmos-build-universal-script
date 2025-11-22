@@ -16,6 +16,8 @@ sudo -v
 export SCRIPT_RAN_FROM_DIR=$PWD
 export PATH="$PATH:$HOME/.local/bin"
 
+set +e
+
 ## Clean up first, but only if they exist, presumably due to build errors, to protect from rm -rf mistakes.
 echo cleaning old or failed builds if exists...
 if [ -d $SCRIPT_RAN_FROM_DIR/pmbootstrap ]; then
@@ -31,6 +33,7 @@ fi
 sync
 echo cleaned.
 
+set -e
 
 find . -type f -name "*.conf" -exec sh -c 'cp "$1" "${1%.conf}.cfg"' _ {} \;
 
