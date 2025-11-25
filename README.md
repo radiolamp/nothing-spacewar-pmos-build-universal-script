@@ -16,7 +16,7 @@ For Debian 13 (Trixie) on a fresh install, You'll need the following depends:<br
 Open a terminal and run:<br>
 <code>mkdir pmos
 cd pmos
-git clone https://github.com/Ordinary-Ladess/nothing-spacewar-pmos-build-universal-script.git
+git clone https://github.com/Ordinary-Ladess/nothing-spacewar-pmos-build-universal-script.git $PWD
 chmod +x *.sh
 ./build.sh
 </code>
