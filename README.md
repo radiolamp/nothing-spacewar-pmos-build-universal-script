@@ -1,8 +1,8 @@
 <h1>Build PostMarketOS for NothingPhone 1 SpaceWar</h1> <br>
 
-<br><br><h1>Notice: Building is very broken for some reason, even GitHub servers aren't fast enough to overcome package download stages failing<h1>
+<br><br><h1>Notice: Building is very broken for some reason, even GitHub servers aren't fast enough to overcome package download stages failing</h1>
 <br>I'll be seeing if I can get some advice, but this project maybe put on hold for months due to time.<br>
-I've figured out a fix for the sudo issue, it's quite insecure versus if we had some kind of 'sudo --passwordless-session@ or something, but broken will work better than nothing.<br>
+I've figured out a fix for the sudo issue, it's quite insecure versus if we had some kind of 'sudo --passwordless-session' or something, but broken will work better than nothing.<br>
 
 (Sometimes*) Builds images on:<br>
 Debian Trixie<br>
