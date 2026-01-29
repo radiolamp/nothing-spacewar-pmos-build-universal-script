@@ -1,0 +1,20 @@
+#!/bin/bash
+
+APKG_NAME=$1
+PKG_OUT_DIR=$HOME/.local/var/pmbootstrap/cache_git/pmaports/main
+
+# create the new apk source repos:
+pmbootstrap newapkbuild $APKG_NAME
+sync
+
+# copy the makePKG items to created source repos
+cp -r $APKG_NAME $PKG_OUT_DIR
+sync
+
+# create checksums:
+pmbootstrap checksum $APKG_NAME
+#sync
+
+# build package, which should auto copy to the main local apk repo:
+pmbootstrap build $APKG_NAME --force --arch=aarch64
+#sync

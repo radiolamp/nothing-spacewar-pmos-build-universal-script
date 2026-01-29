@@ -1,0 +1,30 @@
+# Contributor:
+# Maintainer:
+pkgname=soc-qcom-sc7280-qbootctl
+pkgver=1
+pkgrel=6
+pkgdesc="Qualcomm SC7280 qbootctl bypass dependency package"
+url="https://localhost/"
+arch="all"
+license="CC0"
+source="main.c Makefile"
+depend=""
+
+build() {
+	cd "$srcdir"
+	make
+}
+
+check() {
+printf 'no check needed'
+}
+
+package() {
+	install -D -m755 "$srcdir"/qbootctl-placeholder \
+		"$pkgdir"/usr/bin/qbootctl-placeholder
+}
+
+sha512sums="
+7a1a74dd78b8b268f9f10b83924323712cf8f3d886c4daba07610bb9f30ccba87be768c4648023662af75526278269d5f9bb3961cb50d96532ad99215f5569d2  main.c
+6f5f42f5afa8747ddbade49aaebc26e692d1ab53768df1e33caa70c6890248661b0294491758ebc9d0772126900d1dc6c4da82405117f9cb33837dbf3e1fe5fe  Makefile
+"
