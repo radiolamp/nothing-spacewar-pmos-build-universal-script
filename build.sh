@@ -1,4 +1,14 @@
 #!/bin/bash
+
+
+
+#at some point, will need to build a dummy package or few, if I can get them working:
+# pmbootstrap build hello-world --force --arch=aarch64
+
+
+
+
+
 set -e
 # login prompt to get a password for sudo, insecure, but I don't yet know of a safer option
 echo -e "This script needs the password for sudo,"
@@ -11,7 +21,7 @@ read BUILD_SUDO_PASSWORD
 #No longer needed these sudo -v things.... but keepin gthem around for references
 #sudo -v
 #Will this work if -v sometimes doesn't ask for password?
-echo "$BUILD_SUDO_PASSWORD\n" |sudo -v -S
+echo $BUILD_SUDO_PASSWORD |sudo -v -S
 # reference run from dir to overcome ~/ not working in $PATH
 export SCRIPT_RAN_FROM_DIR=$PWD
 export PATH="$PATH:$HOME/.local/bin"
@@ -81,6 +91,19 @@ pmbootstrap build --envkernel linux-postmarketos-qcom-sc7280
 sync
 echo "$BUILD_SUDO_PASSWORD\n" |sudo -v -S
 #sudo -v
+
+
+
+
+# Is this a suitable time to make dependencies to bypass missing dependencies? 
+PRE_DEPS_DIR=$PWD
+cd $SCRIPT_RAN_FROM_DIR/makePKG
+./make-manual-depends.sh
+cd $SCRIPT_RAN_FROM_DIR
+cd $PRE_DEPS_DIR
+sync
+
+
 
 # Build pmos images, failed here, but doesn't look like script issue
 echo building images
