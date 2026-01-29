@@ -1,6 +1,6 @@
 <h1>Build PostMarketOS for NothingPhone 1 SpaceWar</h1> <br>
 
-<br><br><h1>Notice: Building is very broken for some reason, Looks to be caused by a non-existent dependency.</h1>
+<br><br><h1>Notice: Builds now, but results are untested!.</h1>
 <br>I'll be seeing if I can get some advice, but this project maybe put on hold for months due to time.<br>
 
 <br><br> Sudo is fixed, no longer asks for a password mid build<br>
