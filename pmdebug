@@ -1,0 +1,71 @@
+#!/bin/bash
+
+## TODO: make this a menu option "pmdebug.sh shell"
+shell()
+	{
+		export SCRIPT_RAN_FROM_DIR=$PWD
+		export PATH="$PATH:$HOME/.local/bin"
+		echo set up envirnment to run pmbootstrap naturally
+		bash
+	}
+
+
+## TODO: make this a menu option "pmdebug.sh install-deps"
+GetBuildDeps()
+	{
+		if [exist /etc/debian_version]; then
+			os=$(cat /etc/debian_version)
+			sudo apt-get install git kpartx flex bison
+		fi
+	}
+
+
+## TODO: make this a menu option "pmdebug cleanup"
+cleanup()
+	{
+		set -e
+		## login to make sudo request less, scatter these around hoping to quash much of them
+		sudo -v
+		# reference run from dir to overcome ~/ not working in $PATH
+		export SCRIPT_RAN_FROM_DIR=$PWD
+		export PATH="$PATH:$HOME/.local/bin"
+	
+		## Clean up first, but only if they exist, presumably due to build errors, to protect from rm -rf mistakes.
+		echo cleaning old or failed builds if exists...
+		if [ -d $SCRIPT_RAN_FROM_DIR/pmbootstrap ]; then
+			echo -e "n\nn\ny\n" | pmbootstrap zap
+			sync
+			rm -rf pmbootstrap; fi
+		if [ -d $HOME/.local/var/pmbootstrap ]; then
+			sudo rm -rf $HOME/.local/var/pmbootstrap
+		fi
+		if [ -d $SCRIPT_RAN_FROM_DIR/out ]; then
+			rm -rf out;
+		fi
+		sync
+		echo cleaned.
+	}
+
+case $1 in
+	cleanup)
+		cleanup
+	;;
+
+	install-deps)
+		GetBuildDeps
+	;;
+
+	shell)
+		shell
+	;;
+
+	*)
+		echo -en "\n\n\nPostMarketOS Debug script for Nothing Spacewar\n\n"
+		echo -en "Usage:\n"
+		echo -en "pmdebug [option]\n\n"
+		echo -en "Options:\n"
+		echo -en "\n\tshell\n\t\tSet up environment variables for pmbootstrap debugging\n"
+		echo -en "\tcleanup\n\t\tClean up the build back to the known beginning\n"
+
+		echo -en "\n\tinstall-deps\n\t\tDebian - Install build dependencies for pmbootstrap\n"
+esac
