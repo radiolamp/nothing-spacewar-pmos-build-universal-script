@@ -41,7 +41,7 @@ In the same terminal, run:<br>
 </code>
 <br>
 
-<h2>Issues that might happen:</h2>
+<h2>Issues, current and potential:</h2>
 password appears on terminal,<br>
 work around: delete your bash history, reboot PC, etc<br>
 In pmbootstrap, downloading packages randomly fail.<br>
@@ -54,3 +54,11 @@ on a fresh install, it's more flakey. However, YMMV.<br>
 <br>
 Bad images, this can happen in Git-Action builds anyway.<br>
 boots but no GUI, currently regressed state of things ._.<br>
+<br>
+I can't be bothered to figure out how to make scripts executable as<br>
+github has no obvious way to do this and I spent hours trying to<br>
+figure that out.<br>
+So, you'll have to put up with making <b>pmdebug</b> executable yourself and<br>
+running it as follows <code>./pmdebug init</code> to set up permissions.<br>
+That is until GitHub has a big red "mark as executable" button on <br>
+their editor for any and all files being edited.
