@@ -23,8 +23,7 @@ Open a terminal and run:<br>
 <code>mkdir pmos
 cd pmos
 git clone https://github.com/Ordinary-Ladess/nothing-spacewar-pmos-build-universal-script.git $PWD
-chmod +x pmdebug
-./pmdebug init
+chmod +x pmdebug && ./pmdebug init
 </code>
 <br>
 
