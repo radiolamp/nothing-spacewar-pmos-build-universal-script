@@ -51,6 +51,7 @@ init-build-system()
 	{
 	SCRIPT_RAN_FROM_DIR=$PWD
 	chmod +x *.sh
+	chmod +x build
 	cd makePKG
 	chmod +x *.sh
 	cd $SCRIPT_RAN_FROM_DIR
