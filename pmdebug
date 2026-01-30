@@ -45,6 +45,16 @@ cleanup()
 		sync
 		echo cleaned.
 	}
+	
+	
+init-build-system()
+	{
+	SCRIPT_RAN_FROM_DIR=$PWD
+	chmod +x *.sh
+	cd makePKG
+	chmod +x *.sh
+	cd $SCRIPR_RAN_FROM_DIR
+	}
 
 case $1 in
 	cleanup)
@@ -57,6 +67,10 @@ case $1 in
 
 	shell)
 		shell
+	;;
+	
+	init)
+	init-build-system
 	;;
 
 	*)
