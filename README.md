@@ -28,9 +28,9 @@ chmod +x pmdebug
 </code>
 <br>
 
-<h2>To build the images</h2>
-Open a terminal in the pmos directory and run:
-./build
+<h2>To build images</h2>
+Open a terminal in the pmos directory and run:<br>
+<code>./build</code>
 
 <h2>To install onto phone</h2>
 Keep the terminal open<br>
