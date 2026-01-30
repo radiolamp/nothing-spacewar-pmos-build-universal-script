@@ -1,14 +1,5 @@
 #!/bin/bash
 
-
-
-#at some point, will need to build a dummy package or few, if I can get them working:
-# pmbootstrap build hello-world --force --arch=aarch64
-
-
-
-
-
 set -e
 # login prompt to get a password for sudo, insecure, but I don't yet know of a safer option
 echo -e "This script needs the password for sudo,"
@@ -17,10 +8,7 @@ read BUILD_SUDO_PASSWORD
 
 #reference I made as I experimented, sussed I needed to use double quotes to prevent accidental command escaping:
 #echo -n "input: ";read input;echo "$input"
-
-#No longer needed these sudo -v things.... but keepin gthem around for references
-#sudo -v
-#Will this work if -v sometimes doesn't ask for password?
+#Insecure way of working around sudo timeouts, but YOLO:
 echo $BUILD_SUDO_PASSWORD |sudo -v -S
 # reference run from dir to overcome ~/ not working in $PATH
 export SCRIPT_RAN_FROM_DIR=$PWD
@@ -45,6 +33,8 @@ echo cleaned.
 set -e
 
 find . -type f -name "*.conf" -exec sh -c 'cp "$1" "${1%.conf}.cfg"' _ {} \;
+sync
+mv ./conf/*.cfg ./
 sync
 # Replace placeholders in .cfg files, checked and this really is needed during my line by line debug
 find . -type f -name "*.cfg" -exec sed -i "s|HOME|$(echo $HOME)|;s|NPROC|$(nproc)|" {} +
@@ -92,18 +82,13 @@ sync
 echo "$BUILD_SUDO_PASSWORD\n" |sudo -v -S
 #sudo -v
 
-
-
-
-# Is this a suitable time to make dependencies to bypass missing dependencies? 
+# make local dependencies including placeholder depends
 PRE_DEPS_DIR=$PWD
 cd $SCRIPT_RAN_FROM_DIR/makePKG
 ./make-manual-depends.sh
 cd $SCRIPT_RAN_FROM_DIR
 cd $PRE_DEPS_DIR
 sync
-
-
 
 # Build pmos images, failed here, but doesn't look like script issue
 echo building images
