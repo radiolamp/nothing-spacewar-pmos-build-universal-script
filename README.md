@@ -1,12 +1,10 @@
 <h1>Build PostMarketOS for NothingPhone 1 SpaceWar</h1> <br>
 
-<br><br><h1>Notice: Builds now, but results are untested!.</h1>
-<br>I'll be seeing if I can get some advice, but this project maybe put on hold for months due to time.<br>
-
-<br><br> Sudo is fixed, no longer asks for a password mid build<br>
-I'll be adding the sudo code to my scripts playground repo for anyone to use anywhere.<br>
-I'm going to have to scour the internet for a few ideas on how to generate random data to pump into the password variable<br>
-to prevent data leaks after the script ends, bad enough to have the data leak risk whilst the script is running.
+<br><br><h1>Notice: Builds now, but it fails to start the GUI ._.</h1>
+<br>to get a terminal, hold <code>Vol -</code> and press  <code>Power</code> 3 times<br>
+As for how to get this back to a usable state, I'm going to have to study the DTB of the working one.
+<br>
+<br>
 
 (Sometimes*) Builds images on:<br>
 Debian Trixie<br>
@@ -42,6 +40,8 @@ In the same terminal, run:<br>
 <br>
 
 <h2>Issues that might happen:</h2>
+password appears on terminal,<br>
+work around: delete your bash history, reboot PC, etc<br>
 In pmbootstrap, downloading packages randomly fail.<br>
 This seems to happen on my older laptop and increasing<br>
 timeout on pmbootstrap makes things better.<br>
@@ -51,3 +51,4 @@ on a fresh install, it's more flakey. However, YMMV.<br>
 *Repeatedly rerunning sometimes gets a good build.<br>
 <br>
 Bad images, this can happen in Git-Action builds anyway.<br>
+boots but no GUI, currently regressed state of things ._.<br>
