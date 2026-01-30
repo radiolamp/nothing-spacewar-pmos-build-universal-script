@@ -57,7 +57,7 @@ boots but no GUI, currently regressed state of things ._.<br>
 <br>
 I can't be bothered to figure out how to make scripts executable as<br>
 github has no obvious way to do this and I spent hours trying to<br>
-figure that out.<br>
+figure that out and the few things I found didn't work.<br>
 So, you'll have to put up with making <b>pmdebug</b> executable yourself and<br>
 running it as follows <code>./pmdebug init</code> to set up permissions.<br>
 That is until GitHub has a big red "mark as executable" button on <br>
