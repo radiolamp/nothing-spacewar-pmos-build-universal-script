@@ -18,16 +18,19 @@ For Debian 13 (Trixie) on a fresh install, You'll need the following depends:<br
 <br>
 
 
-<h2>To download and build</h2>
+<h2>To download and initialise</h2>
 Open a terminal and run:<br>
 <code>mkdir pmos
 cd pmos
 git clone https://github.com/Ordinary-Ladess/nothing-spacewar-pmos-build-universal-script.git $PWD
-chmod +x *.sh
-./build.sh
+chmod +x pmosdebug
+./pmosdebug init
 </code>
 <br>
 
+<h2>To build the images</h2>
+Open a terminal in the pmos directory and run:
+./build
 
 <h2>To install onto phone</h2>
 Keep the terminal open<br>
