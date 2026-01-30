@@ -2,6 +2,8 @@ name: Build weekly images (gnome-mobile)
 on:
   #push: Disable build on push for now
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 5' # Run every friday at midnight
 
 env:
   KERNEL_BRANCH: danila/spacewar-6.17
