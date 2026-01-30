@@ -53,7 +53,8 @@ init-build-system()
 	chmod +x *.sh
 	cd makePKG
 	chmod +x *.sh
-	cd $SCRIPR_RAN_FROM_DIR
+	cd $SCRIPT_RAN_FROM_DIR
+	rm $SCRIPT_RAN_FROM_DIR/*.cfg
 	}
 
 case $1 in
