@@ -90,24 +90,28 @@ cd $SCRIPT_RAN_FROM_DIR
 cd $PRE_DEPS_DIR
 sync
 
-# Build pmos images, failed here, but doesn't look like script issue
-echo building images
-cp $SCRIPT_RAN_FROM_DIR/nothing-spacewar-phosh.cfg $HOME/.config/pmbootstrap.cfg
-sync
-pmbootstrap -t 6000 install --password 1114
-sync
-echo "$BUILD_SUDO_PASSWORD\n" |sudo -v -S
-#sudo -v
+if [ "${SKIP_ROOTFS}" != "1" ]; then
+  # Build pmos images (this is the step that installs all userland packages into the rootfs)
+  echo building images
+  cp $SCRIPT_RAN_FROM_DIR/nothing-spacewar-phosh.cfg $HOME/.config/pmbootstrap.cfg
+  sync
+  pmbootstrap -t 6000 install --password 1114
+  sync
+  echo "$BUILD_SUDO_PASSWORD\n" |sudo -v -S
+  #sudo -v
 
-# Export build images to outdir
-echo exporting images
-pmbootstrap export
-mkdir $SCRIPT_RAN_FROM_DIR/out
+  # Export build images to outdir
+  echo exporting images
+  pmbootstrap export
+  mkdir $SCRIPT_RAN_FROM_DIR/out
 
-cp /tmp/postmarketOS-export/boot.img $SCRIPT_RAN_FROM_DIR/out/boot-nothing-spacewar.img
-cp /tmp/postmarketOS-export/nothing-spacewar.img $SCRIPT_RAN_FROM_DIR/out/rootfs-nothing-spacewar.img
-tar -c -I 'xz -9 -T0' -f $SCRIPT_RAN_FROM_DIR/out/Spacewar_pmos.tar.xz $SCRIPT_RAN_FROM_DIR/out/rootfs-nothing-spacewar.img $SCRIPT_RAN_FROM_DIR/out/boot-nothing-spacewar.img
-cp $SCRIPT_RAN_FROM_DIR/flashpmos.sh $SCRIPT_RAN_FROM_DIR/out/flashpmos.sh 
-echo -e "n\nn\ny\n" | pmbootstrap zap
-# Just to tidy up the folder, gets replaced anyway
-rm $SCRIPT_RAN_FROM_DIR/*.cfg
+  cp /tmp/postmarketOS-export/boot.img $SCRIPT_RAN_FROM_DIR/out/boot-nothing-spacewar.img
+  cp /tmp/postmarketOS-export/nothing-spacewar.img $SCRIPT_RAN_FROM_DIR/out/rootfs-nothing-spacewar.img
+  tar -c -I 'xz -9 -T0' -f $SCRIPT_RAN_FROM_DIR/out/Spacewar_pmos.tar.xz $SCRIPT_RAN_FROM_DIR/out/rootfs-nothing-spacewar.img $SCRIPT_RAN_FROM_DIR/out/boot-nothing-spacewar.img
+  cp $SCRIPT_RAN_FROM_DIR/flashpmos.sh $SCRIPT_RAN_FROM_DIR/out/flashpmos.sh 
+  echo -e "n\nn\ny\n" | pmbootstrap zap
+  # Just to tidy up the folder, gets replaced anyway
+  rm $SCRIPT_RAN_FROM_DIR/*.cfg
+else
+  echo "SKIP_ROOTFS=1: пропускаю установку пакетов и сборку rootfs-образа (делаю только ядро и дополнительные пакеты)."
+fi
