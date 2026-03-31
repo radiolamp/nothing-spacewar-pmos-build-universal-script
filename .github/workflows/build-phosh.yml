@@ -3,10 +3,10 @@ on:
   #push: Disable build on push for now
   workflow_dispatch:
   schedule:
-    - cron: '0 1 * * 5' # Run every friday at midnight
+    - cron: "0 1 * * 5" # Run every friday at midnight
 
 env:
-  KERNEL_BRANCH: danila/spacewar-testing
+  KERNEL_BRANCH: fekz115/spacewar-6.19
 
 jobs:
   build-image:
@@ -67,7 +67,6 @@ jobs:
           make defconfig sc7280.config
           make -j$(nproc)
           pmbootstrap build --envkernel linux-postmarketos-qcom-sc7280
-
 
       - name: Create artifact directory
         run: |
